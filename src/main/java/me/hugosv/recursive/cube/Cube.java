@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 import me.hugosv.recursive.utils.Input;
 
+/**
+ * @author Hugo Sanchez Velazquez
+ * @version 1.0.0
+ */
 public class Cube {
 	public static String recursive(int limit) {
 		return (limit > 0 ? cube(limit) + " " + recursive(limit - 1) : "");

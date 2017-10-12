@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 import me.hugosv.recursive.utils.Input;
 
+/**
+ * @author Hugo Sanchez Velazquez
+ * @version 1.0.0
+ */
 public class Ulam {
 	
 	public static String recursive(int number) {

@@ -1,9 +1,14 @@
 package me.hugosv.recursive.fibonacci;
 
+
 import java.util.Scanner;
 
 import me.hugosv.recursive.utils.Input;
 
+/**
+ * @author Hugo Sanchez Velazquez
+ * @version 1.0.0
+ */
 public class Fibonacci {
 	public static String recursive(int a, int b, int limit) {
 		return (limit > 0 ? a + " " + recursive(b, a + b, limit - 1) : a + " ");

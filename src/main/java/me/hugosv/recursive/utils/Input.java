@@ -2,6 +2,10 @@ package me.hugosv.recursive.utils;
 
 import java.util.Scanner;
 
+/**
+ * @author Hugo Sanchez Velazquez
+ * @version 1.0.0
+ */
 public class Input {
 	private static Scanner instance = null;
 	
