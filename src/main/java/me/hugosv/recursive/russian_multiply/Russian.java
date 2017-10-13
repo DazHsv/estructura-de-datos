@@ -18,31 +18,25 @@ public class Russian {
 		System.out.print("Multiplicando: ");
 		int multiplying = Integer.parseInt(s.nextLine());
 		
-		System.out.print("Recursivo: ");
-		Russian.recursive(multiplier, multiplying, 0);
-		System.out.print("Iterativo: ");
-		Russian.iterative(multiplier, multiplying);
+		System.out.println("Recursivo: " + Russian.recursive(multiplier, multiplying));
+		System.out.println("Iterativo: " + Russian.iterative(multiplier, multiplying));
 		
 		Input.close();
     }
 
-	public static void recursive(int multiplier, int multiplying, int result) {
-//		System.out.println(multiplier);
-//		System.out.println(multiplying);
-//		System.out.println(result);
-//		System.out.println("---");
+	public static int recursive(int multiplier, int multiplying) {
 		
 		if( multiplier != 0 ) {
 			if( multiplier % 2 != 0 )
-				recursive( multiplier / 2, multiplying * 2, multiplying + result );
+				return multiplying + recursive( multiplier / 2, multiplying * 2);
 			else
-				recursive( multiplier / 2, multiplying * 2, result );
+				return recursive( multiplier / 2, multiplying * 2);
 		} else {
-			System.out.println( result );
+			return multiplier;
 		}
 	}
 	
-	public static void iterative(int multiplier, int multiplying) {
+	public static int iterative(int multiplier, int multiplying) {
 		int r = 0;
 		while( multiplier != 0 ) {
 			if(multiplier % 2 != 0)
@@ -52,6 +46,6 @@ public class Russian {
 			multiplying *= 2;
 		}
 		
-		System.out.println(r);
+		return r;
 	}
 }

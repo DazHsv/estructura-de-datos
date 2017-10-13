@@ -3,23 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>me.hugosv.recursive</groupId>
-  <artifactId>russian_multiply</artifactId>
+  <artifactId>programs</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
-  <name>russian_multiply</name>
-  <url>http://maven.apache.org</url>
+  <name>data_structure_programs</name>
+  <url>https://github.com/DazHsv/estructura-de-datos</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>
