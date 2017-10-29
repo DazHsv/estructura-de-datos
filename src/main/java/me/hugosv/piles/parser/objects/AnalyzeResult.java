@@ -1,4 +1,4 @@
-package me.hugosv.piles.parser;
+package me.hugosv.piles.parser.objects;
 
 import java.util.List;
 

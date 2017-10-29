@@ -1,9 +1,6 @@
 package me.hugosv.piles;
 
 import java.util.EmptyStackException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 
 public class Pila<T> {

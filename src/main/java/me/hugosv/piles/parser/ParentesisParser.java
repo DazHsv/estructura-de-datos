@@ -2,10 +2,11 @@ package me.hugosv.piles.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Stack;
 import org.apache.log4j.Logger;
-import me.hugosv.recursive.utils.Input;
+import me.hugosv.piles.parser.objects.AnalyzeResult;
+import me.hugosv.piles.parser.objects.Brace;
+import me.hugosv.piles.parser.objects.ResultQuantity;
 
 public class ParentesisParser {
 	

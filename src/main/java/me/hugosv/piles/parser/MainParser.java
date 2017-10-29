@@ -2,10 +2,12 @@ package me.hugosv.piles.parser;
 
 import java.util.Scanner;
 import org.apache.log4j.Logger;
+import me.hugosv.piles.parser.objects.AnalyzeResult;
+import me.hugosv.piles.parser.objects.ResultQuantity;
 import me.hugosv.recursive.utils.Input;
 
 public class MainParser {
-	
+
 	private static final Logger logger = Logger.getLogger(MainParser.class);
 
 	public static void main(String[] args) {
