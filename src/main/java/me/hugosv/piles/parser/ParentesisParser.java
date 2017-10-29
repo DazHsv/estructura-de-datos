@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import org.apache.log4j.Logger;
-import me.hugosv.piles.parser.objects.AnalyzeResult;
+import me.hugosv.piles.parser.objects.AnalysisResult;
 import me.hugosv.piles.parser.objects.Brace;
-import me.hugosv.piles.parser.objects.ResultQuantity;
+import me.hugosv.piles.parser.objects.ObjectQuantity;
 
+/**
+ * BraceAnalyzer, checks if the given string have equal number of open braces and close braces.
+ * 
+ * @author Hugo Sanchez V
+ * @version 1.0.0
+ * @since Unidad 2
+ * */
 public class ParentesisParser {
 	
 	private static final Logger logger = Logger.getLogger(ParentesisParser.class);
@@ -30,10 +37,18 @@ public class ParentesisParser {
 		logger.trace("CONTRUCTOR: Finished initialization");
 	}
 	
-	public AnalyzeResult analyze(String target) {
+	/**
+	 * Analyze the given string to ensure that is balanced.
+	 * 
+	 * @param target The string to be analyzed.
+	 * @return An object that contains the analyze results.
+	 * @author Hugo Sanchez V
+	 * @since BraceAnalyzer 1.0.0
+	 * */
+	public AnalysisResult<ObjectQuantity> analyze(String target) {
 		logger.info("METHOD: Starting method - analyze");
-		Stack<Character> open = new Stack<Character>();
-		Stack<Character> close = new Stack<Character>();
+		Stack<Character> toClose = new Stack<Character>();
+		Stack<Character> toOpen = new Stack<Character>();
 		
 		/* Example
 		 * ...[] ...{...
@@ -43,70 +58,75 @@ public class ParentesisParser {
 		 *  open  = {, (, {
 		 *  close = ]
 		 *  
-		 *  ( = 1
-		 *  { = 2
-		 *  ] = 1
+		 *  ) = 1
+		 *  } = 2
+		 *  [ = 1
 		 * */
 		logger.debug("- Starting target analize");
 		for (Character c : target.toCharArray()) {
 			logger.trace(" - Analyzing character: " + c);
 			if(isCharacterIn(c, openBraces)) {
 				logger.trace("  - Open brace found");
-				open.push(c);
-				logger.trace("  - Pushed brace to open stack");
+				toClose.push(c);
+				logger.trace("  - Pushed brace to toClose stack");
 			} else if (isCharacterIn(c, closeBraces)) {
 				logger.trace("  - Close brace found");
-				for (Brace brace : braces) {
-					if(c == brace.getClose()) {
-						Character openBrace = brace.getOpen();
-						logger.trace("  - Open brace match: " + openBrace);
-						if(open.contains(openBrace)) {
-							logger.trace("   - Found " + openBrace + " in open stack");
-							open.remove(openBrace);						
-							logger.trace("   - Brace removed from open stack");
-						}
-						else {
-							logger.trace("   - Open brace not in open stack");
-							close.push(c);
-							logger.trace("   - Close brace pushed to close stack");
-						}
-					}
+				Character openBrace = this.getOpposite(c);
+				logger.trace("  - Open brace match: " + openBrace);
+				if(toClose.contains(openBrace)) {
+					logger.trace("   - Found " + openBrace + " in open stack");
+					toClose.remove(openBrace);						
+					logger.trace("   - Brace removed from toClose stack");
+				}
+				else {
+					logger.trace("   - Open brace not in toClose stack");
+					toOpen.push(c);
+					logger.trace("   - Close brace pushed to toOpen stack");
 				}
 			}
 		}
-		
+		logger.debug("- Target analized");
 		logger.debug("- Generating results");
-		AnalyzeResult analyzeResult = new AnalyzeResult();
-		if(open.isEmpty() && close.isEmpty()) {
+		AnalysisResult<ObjectQuantity> analysisResult = new AnalysisResult<ObjectQuantity>();
+		if(toClose.isEmpty() && toOpen.isEmpty()) {
 			logger.debug(" - Target passed");
-			analyzeResult.setPassed(true);
-			analyzeResult.setMessage("String is balanced.");
+			analysisResult.setPassed(true);
+			analysisResult.setMessage("String is balanced.");
 		} else {
-			logger.debug(" - Target not passed");
-			analyzeResult.setMessage("String unbalanced.");
-			logger.trace(" - Adding results");
-			List<ResultQuantity> results = this.countResults(open, close);
-			analyzeResult.setResults(results);
+			logger.warn(" - Target not passed");
+			analysisResult.setMessage("String unbalanced.");
+			logger.debug(" - Adding results");
+			List<ObjectQuantity> results = this.countResults(toClose, toOpen);
+			analysisResult.setResults(results);
 		}
 		logger.info("METHOD: Ending method - analyze");
-		return analyzeResult;
+		return analysisResult;
 	}
 	
-	private List<ResultQuantity> countResults(Stack<Character> open, Stack<Character> close) {
+	/**
+	 * Counts how many open and close braces where left.
+	 * 
+	 * @param open Then open left braces.
+	 * @param close The close left braces.
+	 * @return A list that contains how many braces where left.
+	 * @author Hugo Sanchez V
+	 * @since BraceAnalyzer 1.0.0
+	 * */
+	private List<ObjectQuantity> countResults(Stack<Character> open, Stack<Character> close) {
 		logger.info("METHOD: Starting method - countResults");
-		List<ResultQuantity> results = new ArrayList<ResultQuantity>();
+		List<ObjectQuantity> results = new ArrayList<ObjectQuantity>();
 		for (Brace brace : braces) {
 			Character openBrace = brace.getOpen();
 			Character closeBrace = brace.getClose();
 			
 			logger.trace(" - Creating open braces results for: " + openBrace);
-			ResultQuantity openQuantity = new ResultQuantity(closeBrace);
+			ObjectQuantity openQuantity = new ObjectQuantity(closeBrace);
 			openQuantity.searchAndIncrement(openBrace, open);
 			if(openQuantity.getQuantity() > 0)
 				results.add(openQuantity);
 			
 			logger.trace(" - Creating close braces results for: " + closeBrace);
-			ResultQuantity closeQuantity = new ResultQuantity(openBrace);			
+			ObjectQuantity closeQuantity = new ObjectQuantity(openBrace);			
 			closeQuantity.searchAndIncrement(closeBrace, close);
 			if(closeQuantity.getQuantity() > 0)
 				results.add(closeQuantity);
@@ -115,6 +135,14 @@ public class ParentesisParser {
 		return results;
 	}
 	
+	/**
+	 * Checks if the given character is in the given array.
+	 * 
+	 * @param c The character to find.
+	 * @param braceType An array that contains the posibles matches.
+	 * @author Hugo Sanchez V
+	 * @since BraceAnalyzer 1.0.0
+	 * */
 	private boolean isCharacterIn(Character c, Character[] braceType) {
 		logger.debug("METHOD: Starting method - isCharacterIn");
 		logger.trace(" - c: " + c);
@@ -126,5 +154,24 @@ public class ParentesisParser {
 		}
 		logger.debug("METHOD: Ending method - isCharacterIn: false");
 		return false;
+	}
+	
+	/**
+	 * Gets the opposite character of the given one.
+	 * 
+	 * @param c The character to get opposite.
+	 * @return The opposite character.
+	 * @author Hugo Sanchez V
+	 * @since BraceAnalyzer 1.0.0
+	 * */
+	private Character getOpposite(Character c) {
+		Character opposite = null;
+		for (Brace brace : braces) {
+			if(brace.getClose() == c) {
+				opposite = brace.getOpen();
+				break;
+			}
+		}
+		return opposite;
 	}
 }
