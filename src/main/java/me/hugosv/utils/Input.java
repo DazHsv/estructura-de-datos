@@ -1,4 +1,4 @@
-package me.hugosv.recursive.utils;
+package me.hugosv.utils;
 
 import java.util.Scanner;
 

@@ -1,8 +1,7 @@
 package me.hugosv.recursive.cube;
 
 import java.util.Scanner;
-
-import me.hugosv.recursive.utils.Input;
+import me.hugosv.utils.Input;
 
 /**
  * @author Hugo Sanchez Velazquez

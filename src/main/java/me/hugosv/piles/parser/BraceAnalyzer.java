@@ -15,15 +15,15 @@ import me.hugosv.piles.parser.objects.ObjectQuantity;
  * @version 1.0.0
  * @since Unidad 2
  * */
-public class ParentesisParser {
+public class BraceAnalyzer {
 	
-	private static final Logger logger = Logger.getLogger(ParentesisParser.class);
+	private static final Logger logger = Logger.getLogger(BraceAnalyzer.class);
 	
 	private final Character[] openBraces = {'(', '{', '['};
 	private final Character[] closeBraces = {')', '}', ']'};
 	private final Brace[] braces;
 	
-	public ParentesisParser() {
+	public BraceAnalyzer() {
 		logger.trace("CONSTRUCTOR: Initializing Parser");
 		Integer length = this.openBraces.length;
 		logger.trace(" - length: " + length);
@@ -34,7 +34,7 @@ public class ParentesisParser {
 			logger.trace("- Adding characters: " + open + " " + close);
 			this.braces[i] = new Brace(open, close);
 		}
-		logger.trace("CONTRUCTOR: Finished initialization");
+		logger.trace("CONSTRUCTOR: Finished initialization");
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class ParentesisParser {
 		 *  close = ]
 		 *  
 		 *  ) = 1
-		 *  } = 2
+		 *  } = 1
 		 *  [ = 1
 		 * */
 		logger.debug("- Starting target analize");
@@ -75,10 +75,9 @@ public class ParentesisParser {
 				logger.trace("  - Open brace match: " + openBrace);
 				if(toClose.contains(openBrace)) {
 					logger.trace("   - Found " + openBrace + " in open stack");
-					toClose.remove(openBrace);						
+					toClose.remove(openBrace);					
 					logger.trace("   - Brace removed from toClose stack");
-				}
-				else {
+				} else {
 					logger.trace("   - Open brace not in toClose stack");
 					toOpen.push(c);
 					logger.trace("   - Close brace pushed to toOpen stack");
@@ -106,8 +105,8 @@ public class ParentesisParser {
 	/**
 	 * Counts how many open and close braces where left.
 	 * 
-	 * @param open Then open left braces.
-	 * @param close The close left braces.
+	 * @param open An stack with the open braces left.
+	 * @param close An stack with the close left braces.
 	 * @return A list that contains how many braces where left.
 	 * @author Hugo Sanchez V
 	 * @since BraceAnalyzer 1.0.0

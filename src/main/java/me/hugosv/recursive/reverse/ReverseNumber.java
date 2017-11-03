@@ -1,8 +1,7 @@
 package me.hugosv.recursive.reverse;
 
 import java.util.Scanner;
-
-import me.hugosv.recursive.utils.Input;
+import me.hugosv.utils.Input;
 
 public class ReverseNumber {
 	private static void recursive(int number) {

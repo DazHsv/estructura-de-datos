@@ -1,6 +1,7 @@
 package me.hugosv.piles.parser.objects;
 
 import java.util.List;
+import me.hugosv.utils.TestResult;
 
 /**
  * An object that is used for storing analysis results.
@@ -9,38 +10,8 @@ import java.util.List;
  * @version 1.0.0
  * @since BraceAnalyzer 1.0.0
  * */
-public class AnalysisResult<T> {
-	private boolean passed;
-	private String message;
+public class AnalysisResult<T> extends TestResult{
 	private List<T> results;
-	
-	/**
-	 * @return Return the analysis status.
-	 * */
-	public boolean getPassed() {
-		return passed;
-	}
-	
-	/**
-	 * @param passed The status of the analysis.
-	 */
-	public void setPassed(boolean passed) {
-		this.passed = passed;
-	}
-
-	/**
-	 * @return An optional message of the analysis.
-	 * */
-	public String getMessage() {
-		return message;
-	}
-	
-	/**
-	 * @param message An optional message.
-	 * */
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	
 	/**
 	 * @return A list with the analysis results.

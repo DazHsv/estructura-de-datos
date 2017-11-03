@@ -1,6 +1,6 @@
 package me.hugosv.recursive.hexa;
 
-import me.hugosv.recursive.utils.Input;
+import me.hugosv.utils.Input;
 
 public class Hexadecimal {
 	

@@ -4,7 +4,7 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 import me.hugosv.piles.parser.objects.AnalysisResult;
 import me.hugosv.piles.parser.objects.ObjectQuantity;
-import me.hugosv.recursive.utils.Input;
+import me.hugosv.utils.Input;
 
 /**
  * Brace Analyzer - Main
@@ -20,13 +20,13 @@ public class MainParser {
 	public static void main(String[] args) {
 		logger.info("METHOD: Starting method - main");
 		Scanner s = Input.getInstance();
-		ParentesisParser parentesisParser = new ParentesisParser();
+		BraceAnalyzer braceAnalyzer = new BraceAnalyzer();
 		System.out.print("String: ");
 		String str = s.nextLine();
 		Long startTime = System.currentTimeMillis();
 		
 		logger.trace("- Prepare to analyze string");
-		AnalysisResult<ObjectQuantity> result = parentesisParser.analyze(str);
+		AnalysisResult<ObjectQuantity> result = braceAnalyzer.analyze(str);
 		logger.trace("- String analyzed");
 		logger.trace("- Printing results");
 		System.out.println(result.getMessage());
