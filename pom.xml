@@ -1,26 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>me.hugosv.recursive</groupId>
-  <artifactId>programs</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
+	<groupId>me.hugosv.recursive</groupId>
+	<artifactId>programs</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
+	<developers>
+		<developer>
+			<email>programacionhsv@gmail.com</email>
+			<name>Hugo Sanchez Velazquez</name>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<url>https://github.com/DazHsv</url>
+		</developer>
+	</developers>
 
-  <name>data_structure_programs</name>
-  <url>https://github.com/DazHsv/estructura-de-datos</url>
+	<name>data_structure_programs</name>
+	<url>https://github.com/DazHsv/estructura-de-datos</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  
-  <dependencies>
-  	<dependency>
-  		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-	    <groupId>log4j</groupId>
-	    <artifactId>log4j</artifactId>
-	    <version>1.2.17</version>
-  	</dependency>
-  </dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+	</dependencies>
 
 </project>
