@@ -1,5 +1,7 @@
 package me.hugosv.list.ordered;
 
+import me.hugosv.list.Node;
+
 /**
  * A list where all its elements are ordered from minus to more when they are
  * added.
@@ -22,61 +24,52 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 	public boolean add(T element) {
 		Node<T> n = new Node<T>(element);
 		if (this.isEmpty()) {
-			this.first = n;
+			first = n;
 		} else {
-			this.orderedInsert(n);
+			orderedInsert(n);
 		}
-		this.size++;
+
+		size++;
 		return true;
 	}
 
 	/**
 	 * Removes the value at the given index.
 	 *
-	 * @param index The index of the value in the list.
-	 * @return The removed value from the list.
+	 * @param index A {@link Integer} that represents the position of the value
+	 * in the list.
+	 * @return The value removed from the list.
 	 */
 	public T remove(int index) {
-		if(isEmpty() || index > this.size || index < 0) {
-			throw new IndexOutOfBoundsException(
-				"Index " + index + " is out of the list limits.");
-		}
-		Node<T> control = this.first;
-		while ((index--) != 0 && control.hasNext()) {
-			control = control.getNext();
-		}
-		T value = control.getValue();
-		Node prev = control.getPrev();
-		Node next = control.getNext();
-		if(prev != null && next == null) {
-			prev.setNext(null);
-		} else if(prev == null && next != null) {
-			this.first = next;
-			next.setPrev(null);
-		} else {
-			this.first = null;
-		}
-		control = null;
-		this.size--;
-		return value;
+		verifyIndex(index);
+		size--;
+		return remove(find(index));
 	}
 
 	/**
 	 * Get the node at the given index.
 	 *
-	 * @param index The index to search for.
-	 * @return The value on the given index.
+	 * @param index A {@link Integer} that represents the position of the value
+	 * in the list.
+	 * @return The value on the given position.
 	 */
 	public T get(int index) {
-		if(index > this.size || index < 0) {
-			throw new IndexOutOfBoundsException(
-				"Index " + index + " is out of the list limits.");
+		verifyIndex(index);
+		return find(index).getValue();
+	}
+
+	/**
+	 * Updates the value on the given position.
+	 *
+	 * @param index The index of the value to edit.
+	 * @param element The new value for the index.
+	 * @return The new value for the index.
+	 */
+	public T set(int index, T element) {
+		if (isEmpty() || index > size || index < 0) {
+			throw new IndexOutOfBoundsException("Index " + index + " is out of the list limits.");
 		}
-		Node<T> control = this.first;
-		while ((index--) != 0 && control.hasNext()) {
-			control = control.getNext();
-		}
-		return control.getValue();
+		return set(find(index), element);
 	}
 
 	/**
@@ -105,25 +98,63 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 		this.size = 0;
 	}
 
-	/**
-	 * Updates the value on the given position.
-	 *
-	 * @param index The index of the value to edit.
-	 * @param element The new value for the index.
-	 * @return The new value for the index.
-	 */
-	public T set(int index, T element) {
-		Node<T> control = this.first;
-		while (index != 0) {
-			control = control.getNext();
-			index--;
+	private void verifyIndex(int index) {
+		if (isEmpty() || index > size || index < 0) {
+			throw new IndexOutOfBoundsException("Index " + index + " is out of the list limits.");
 		}
-		control.setValue(element);
-		return control.getValue();
 	}
 
 	/**
-	 * Insert the given {@link Node} in the list, sorted by its value.
+	 * Return the node at the given index.
+	 *
+	 * @param index A {@link Integer} that represents the position of the node
+	 * in the list.
+	 * @return The {@link Node} at the given position.
+	 */
+	private Node<T> find(int index) {
+		Node<T> control = this.first;
+		while ((index--) != 0 && control.hasNext()) {
+			control = control.getNext();
+		}
+		return control;
+	}
+
+	/**
+	 * Remove the nodes references to the given node.
+	 *
+	 * @param n The {@link Node} to be removed.
+	 * @return The value of the removed node.
+	 */
+	private T remove(Node<T> n) {
+		T value = n.getValue();
+		Node prev = n.getPrev();
+		Node next = n.getNext();
+		if (prev != null && next == null) {
+			prev.setNext(null);
+		} else if (prev == null && next != null) {
+			this.first = next;
+			next.setPrev(null);
+		} else {
+			this.first = null;
+		}
+		return value;
+	}
+
+	/**
+	 * Set the given value to the given {@link Node}.
+	 *
+	 * @param n The {@link Node} to be updated.
+	 * @param value The new value.
+	 * @return The value that was set.
+	 */
+	private T set(Node<T> n, T value) {
+		n.setValue(value);
+		return value;
+	}
+
+	/**
+	 * Insert the given {@link Node} in the list, secuentially sorted by its
+	 * value.
 	 *
 	 * @param n The {@link Node} to be sorted.
 	 */
@@ -180,68 +211,5 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 		}
 		current.setPrev(prev);
 		prev.setNext(current);
-	}
-
-	/**
-	 * A linked list Node.
-	 *
-	 * @author Hugo Sanchez
-	 * @param <T> The type of the node's value.
-	 */
-	private class Node<T> {
-
-		private T value;
-		private Node<T> next, prev;
-
-		public Node(T value) {
-			this.value = value;
-		}
-
-		public T getValue() {
-			return value;
-		}
-
-		public void setValue(T value) {
-			this.value = value;
-		}
-
-		public Node<T> getNext() {
-			return next;
-		}
-
-		public void setNext(Node<T> next) {
-			this.next = next;
-		}
-
-		public Node<T> getPrev() {
-			return prev;
-		}
-
-		public void setPrev(Node<T> prev) {
-			this.prev = prev;
-		}
-
-		public boolean hasNext() {
-			return this.next != null;
-		}
-
-		public boolean hasPrev() {
-			return this.prev != null;
-		}
-
-		@Override
-		public String toString() {
-			return new StringBuilder()
-				.append("Node[ ")
-				.append("value=")
-				.append(this.value)
-				.append(", prev=")
-				.append(this.prev)
-				.append(", next=")
-				.append(this.next)
-				.append(" ]")
-				.toString();
-		}
-
 	}
 }
