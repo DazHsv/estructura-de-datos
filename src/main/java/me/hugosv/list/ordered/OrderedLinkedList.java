@@ -3,7 +3,7 @@ package me.hugosv.list.ordered;
 import me.hugosv.list.Node;
 
 /**
- * A list where all its elements are ordered from minus to more when they are
+ * A list where all its elements are ordered when they are
  * added.
  *
  * @author Hugo Sanchez
