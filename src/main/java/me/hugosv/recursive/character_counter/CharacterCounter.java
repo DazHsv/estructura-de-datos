@@ -17,7 +17,7 @@ public class CharacterCounter {
 		int foundAt = subject.indexOf(target, from);
 		logger.debug(" - from: " + from);
 		
-		if(foundAt > 0) {
+		if(foundAt >= 0) {
 			logger.debug(" - foundAt: " + foundAt);
 			return 1 + this.find(subject, target, foundAt + 1);			
 		}
