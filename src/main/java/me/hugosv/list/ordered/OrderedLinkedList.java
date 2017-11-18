@@ -98,6 +98,16 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 		this.size = 0;
 	}
 
+	/**
+	 * Verifies if the given index is a valid one.
+	 * <p>
+	 * The index is valid when:<br/>
+	 * 1. The list isn't empty.<br/>
+	 * 2. The index isn't greater than the actual size of the list.<br/>
+	 * 3. The index is greater than zero.
+	 * </p>
+	 * @param index The index to be verified.
+	 */
 	private void verifyIndex(int index) {
 		if (isEmpty() || index > size || index < 0) {
 			throw new IndexOutOfBoundsException("Index " + index + " is out of the list limits.");
