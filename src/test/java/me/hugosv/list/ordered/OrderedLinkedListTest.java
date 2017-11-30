@@ -51,9 +51,13 @@ public class OrderedLinkedListTest {
 		Integer i = 10;
 		this.target.add(i);
 		this.target.add(i + 5);
+		this.target.add(i + 5);
+		this.target.add(i + 5);
+		this.target.add(i + 10);
 		
 		System.out.println(this.target.remove(1));
-		System.out.println(this.target.remove(0));
+		
+		this.target.forEach(System.out::println);
 	}
 
 	/**

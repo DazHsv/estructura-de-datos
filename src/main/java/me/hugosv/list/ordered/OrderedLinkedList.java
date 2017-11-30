@@ -1,16 +1,17 @@
 package me.hugosv.list.ordered;
 
+import java.util.Iterator;
+import java.util.function.Consumer;
 import me.hugosv.list.Node;
 
 /**
- * A list where all its elements are ordered when they are
- * added.
+ * A list where all its elements are ordered when they are added.
  *
  * @author Hugo Sanchez
  * @param <T> The type of elements inside this list, must implements the
  * {@link Comparable} interface for ordering.
  */
-public class OrderedLinkedList<T extends Comparable<T>> {
+public class OrderedLinkedList<T extends Comparable<T>> implements Iterable<T> {
 
 	private Node<T> first;
 	private int size;
@@ -106,6 +107,7 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 	 * 2. The index isn't greater than the actual size of the list.<br/>
 	 * 3. The index is greater than zero.
 	 * </p>
+	 *
 	 * @param index The index to be verified.
 	 */
 	private void verifyIndex(int index) {
@@ -139,13 +141,14 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 		T value = n.getValue();
 		Node prev = n.getPrev();
 		Node next = n.getNext();
-		if (prev != null && next == null) {
+		if (n.hasPrev() && !n.hasNext()) {
 			prev.setNext(null);
-		} else if (prev == null && next != null) {
+		} else if (!n.hasPrev() && n.hasNext()) {
 			this.first = next;
 			next.setPrev(null);
 		} else {
-			this.first = null;
+			prev.setNext(next);
+			next.setPrev(prev);
 		}
 		return value;
 	}
@@ -221,5 +224,52 @@ public class OrderedLinkedList<T extends Comparable<T>> {
 		}
 		current.setPrev(prev);
 		prev.setNext(current);
+	}
+
+	/**
+	 * Return an iterator for this list.
+	 *
+	 * @return A {@link Iterable} object.
+	 */
+	@Override
+	public Iterator<T> iterator() {
+		return new IteratorImpl(this.first);
+	}
+
+	/**
+	 * Perform the given action for each element of this list.
+	 *
+	 * @param action The action to be perform for each element on this list.
+	 */
+	@Override
+	public void forEach(Consumer<? super T> action) {
+		for (T t : this) {
+			action.accept(t);
+		}
+	}
+
+	/**
+	 * An iterator for this list objects.
+	 */
+	private class IteratorImpl implements Iterator<T> {
+
+		private Node<T> current;
+
+		public IteratorImpl(Node<T> first) {
+			current = first;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return current != null;
+		}
+
+		@Override
+		public T next() {
+			T value = current.getValue();
+			current = current.getNext();
+			return value;
+		}
+
 	}
 }
